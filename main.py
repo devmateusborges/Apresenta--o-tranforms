@@ -20,11 +20,17 @@ tokenizer = GPT2Tokenizer.from_pretrained(
 model = GPT2LMHeadModel.from_pretrained(
     model_name)  # Inicializar o modelo GPT2
 
+print("==================================")
+print("===     Iniciando Treinamento  ===")
+print("==================================")
 # Dados de treinamento
 text = "Tente mover o mundo - o primeiro passo será mover a si mesmo."  # Platão
 print("Texto original:", text)
 # Codificar o texto como tokens numéricos usando o tokenizador
 inputs = tokenizer.encode(text, return_tensors='pt')
+print("==================================")
+print("===             Entrada        ===")
+print("==================================")
 print("Tokens de entrada:", inputs)
 
 # Treinamento
@@ -34,20 +40,35 @@ optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
 labels = inputs.clone()
 
 model.train()  # Definir o modo de treinamento para o modelo
+print("==================================")
+print("===             èpocas         ===")
+print("==================================")
 for epoch in range(10):  # Número de épocas de treinamento
     optimizer.zero_grad()  # Zerar os gradientes acumulados do otimizador
     # Passar as entradas e rótulos para o modelo
     outputs = model(inputs, labels=labels)
     loss = outputs.loss  # Obter a perda do modelo
-    print("Epoch:", epoch+1, "Loss:", loss.item())
+    print("ÈPoca:", epoch+1, "PERDA:", loss.item())
     loss.backward()  # Realizar a retropropagação para calcular os gradientes
     optimizer.step()  # Atualizar os parâmetros do modelo com base nos gradientes calculados
 
+
+print("==================================")
+print("===     USO DO TEINAMENTO      ===")
+print("==================================")
+
 # Uso do modelo treinado
+
 text = "Tente mover o mundo -"
+print("==================================")
+print("===          ENTRADA           ===")
+print("==================================")
 print("Frase de entrada:", text)
 # Codificar a frase de entrada como tokens numéricos
 input_ids = tokenizer.encode(text, return_tensors='pt')
+print("==================================")
+print("===     TOKENS DE ENTRADA      ===")
+print("==================================")
 print("Tokens de entrada:", input_ids)
 # Criar a máscara de atenção
 attention_mask = torch.ones_like(input_ids)
@@ -56,4 +77,7 @@ output = model.generate(input_ids, max_length=50,
                         attention_mask=attention_mask)
 # Decodificar os tokens gerados em texto
 generated_text = tokenizer.decode(output[0], skip_special_tokens=True)
+print("==================================")
+print("===            saida           ===")
+print("==================================")
 print("Texto gerado:", generated_text)
