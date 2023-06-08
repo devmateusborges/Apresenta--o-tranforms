@@ -1,7 +1,4 @@
-# pip install SpeechRecognition
-
-pipwin install pyaudio
-
+# Segue os passos
 1. Criar ambiente virtual
 
    ```sh
@@ -21,6 +18,4 @@ pipwin install pyaudio
    source venv/bin/activate
    ```
 
-dependece
 
-pip install openai pinecone-client
